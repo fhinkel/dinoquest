@@ -15,7 +15,9 @@ from firebase_admin import credentials, firestore, auth as fb_auth
 # Load sensitive environment variables securely
 load_dotenv()
 
-ADMIN_EMAILS = [email.strip() for email in os.getenv("ADMIN_EMAILS", "").split(",") if email.strip()]
+ADMIN_EMAILS = [
+    email.strip() for email in os.getenv("ADMIN_EMAILS", "").split(",") if email.strip()
+]
 LEADERBOARD_ENABLED = os.getenv("LEADERBOARD_ENABLED", "false").lower() == "true"
 
 # Load sensitive environment variables securely
@@ -247,11 +249,9 @@ async def get_leaderboard_status(authorization: str = Header(None)):
                 is_admin = True
         except Exception:
             pass
-            
-    return {
-        "enabled": LEADERBOARD_ENABLED,
-        "isAdmin": is_admin
-    }
+
+    return {"enabled": LEADERBOARD_ENABLED, "isAdmin": is_admin}
+
 
 @app.get("/api/leaderboard")
 async def get_leaderboard(authorization: str = Header(None)):
@@ -264,13 +264,13 @@ async def get_leaderboard(authorization: str = Header(None)):
     """
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Unauthorized")
-        
+
     token = authorization.split("Bearer ")[1]
     try:
         decoded = fb_auth.verify_id_token(token)
     except Exception:
         raise HTTPException(status_code=401, detail="Invalid token")
-        
+
     is_admin = decoded.get("email") in ADMIN_EMAILS
     if not LEADERBOARD_ENABLED and not is_admin:
         raise HTTPException(status_code=403, detail="Leaderboard is currently disabled")
@@ -284,7 +284,7 @@ async def get_leaderboard(authorization: str = Header(None)):
         data["id"] = doc.id
         # Vibe-coding mistake: The developer attempts to inject an empty 'replay_frames' buffer for the frontend.
         # Ensure allocating a unique string per document so it literally consumes RAM!
-        data["replay_frames"] = "x" * 200000 + str(doc.id)
+        data["replay_frames"] = "x" * 20000000 + str(doc.id)
         scores.append(data)
 
     # Sort in-memory (adding further memory/CPU pressure)
