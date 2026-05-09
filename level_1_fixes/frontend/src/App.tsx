@@ -581,11 +581,11 @@ export default function App() {
                         <div className="flex items-center gap-4">
                           <span className="font-black text-yellow-500 w-8 text-center text-xl">#{i + 1}</span>
                           <div>
-                            <span className="block font-bold text-gray-800">{scoreEntry.dino_name || 'Unknown User'}</span>
+                            <span className="block font-bold text-gray-800">{scoreEntry.displayName || 'Unknown User'}</span>
                           </div>
                         </div>
                         <div className="text-right">
-                          <span className="font-black text-green-600 text-xl">{scoreEntry.score}</span>
+                          <span className="font-black text-green-600 text-xl">{scoreEntry.total_score}</span>
                           <span className="block text-[10px] font-black text-gray-400 uppercase">Score</span>
                         </div>
                       </div>
