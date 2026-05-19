@@ -329,6 +329,10 @@ export const Level2Game: React.FC<Level2GameProps> = ({ dinoType, dinoImage, onB
 
     let frameCount = 0;
     let facingLeft = false;
+    // Fixed-step accumulator: physics/gameplay always advance at exactly 60Hz
+    // regardless of monitor refresh rate (ProMotion 120Hz, 144Hz, etc.).
+    const FIXED_DT = 1 / 60;
+    let accumulator = 0;
 
     // Difficulty curve (12s total)
     const getSpawnRate = (timeRem: number) => {
@@ -338,9 +342,21 @@ export const Level2Game: React.FC<Level2GameProps> = ({ dinoType, dinoImage, onB
     };
 
     const loop = (timestamp: number) => {
-      const deltaTime = (timestamp - lastTime) / 1000;
+      const rawDelta = (timestamp - lastTime) / 1000;
+      // Cap so a backgrounded tab can't trigger a long catch-up burst.
+      accumulator += Math.min(rawDelta, 0.25);
       lastTime = timestamp;
 
+      while (accumulator >= FIXED_DT) {
+        accumulator -= FIXED_DT;
+        const done = stepFrame(FIXED_DT);
+        if (done) return;
+      }
+
+      animationFrameId = requestAnimationFrame(loop);
+    };
+
+    const stepFrame = (deltaTime: number): boolean => {
       localTime -= deltaTime;
       localScore += deltaTime * 20; // Points for dodging/surviving
 
@@ -358,7 +374,7 @@ export const Level2Game: React.FC<Level2GameProps> = ({ dinoType, dinoImage, onB
       if (localTime <= 0) {
         setIsWon(true);
         if (onLevel2End) onLevel2End(true, Math.floor(localScore), localRocksDestroyed, LEVEL_DURATION);
-        return;
+        return true;
       }
 
       if (isFlickering) {
@@ -665,7 +681,7 @@ export const Level2Game: React.FC<Level2GameProps> = ({ dinoType, dinoImage, onB
           if (currentLives <= 0) {
             setIsGameOver(true);
             if (onLevel2End) onLevel2End(false, Math.floor(localScore), localRocksDestroyed, Math.max(0, LEVEL_DURATION - localTime));
-            return;
+            return true;
           }
           continue;
         }
@@ -697,7 +713,7 @@ export const Level2Game: React.FC<Level2GameProps> = ({ dinoType, dinoImage, onB
       }
 
       frameCount++;
-      animationFrameId = requestAnimationFrame(loop);
+      return false;
     };
 
     animationFrameId = requestAnimationFrame(loop);
