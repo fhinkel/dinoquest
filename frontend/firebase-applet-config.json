@@ -1,10 +1,11 @@
 {
-  "projectId": "io26-keynote-demo",
-  "appId": "",
-  "apiKey": "",
-  "authDomain": "",
-  "storageBucket": "",
-  "messagingSenderId": "",
-  "measurementId": ""
+  "apiKey": "AIzaSyCY0nctRw-ilTypYa_zF9dDxTKodbkF9J4",
+  "authDomain": "my-project-92200-90-days.firebaseapp.com",
+  "projectId": "my-project-92200-90-days",
+  "storageBucket": "my-project-92200-90-days.firebasestorage.app",
+  "messagingSenderId": "160223770860",
+  "appId": "1:160223770860:web:7fc86d347833a9b844cdc9",
+  "measurementId": "G-M4REM7SJNS",
+  "firestoreDatabaseId": "(default)"
 }
 
