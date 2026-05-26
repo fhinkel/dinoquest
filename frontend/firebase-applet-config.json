@@ -1,11 +1,11 @@
 {
-  "apiKey": "AIzaSyCY0nctRw-ilTypYa_zF9dDxTKodbkF9J4",
-  "authDomain": "my-project-92200-90-days.firebaseapp.com",
-  "projectId": "my-project-92200-90-days",
-  "storageBucket": "my-project-92200-90-days.firebasestorage.app",
-  "messagingSenderId": "160223770860",
-  "appId": "1:160223770860:web:7fc86d347833a9b844cdc9",
-  "measurementId": "G-M4REM7SJNS",
+  "apiKey": "AIzaSyAzj464bl2BzpleVjvn0g0XPfWqxUU24DM",
+  "authDomain": "fran-labs-l200.firebaseapp.com",
+  "projectId": "fran-labs-l200",
+  "storageBucket": "fran-labs-l200.firebasestorage.app",
+  "messagingSenderId": "601315048597",
+  "appId": "1:601315048597:web:152a023ca48d97e70aaf9c",
+  "measurementId": "G-WR2768ZDKL",
   "firestoreDatabaseId": "(default)"
 }
 
